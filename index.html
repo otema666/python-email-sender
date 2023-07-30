@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Redactar Correo Electrónico</title>
+</head>
+<body>
+    <div class="email-window">
+        <label for="recipient">Para:</label>
+        <input type="text" id="recipient" name="recipient" placeholder="Dirección de correo del destinatario" required>
+
+        <label for="subject">Asunto:</label>
+        <input type="text" id="subject" name="subject" placeholder="Asunto del correo" required>
+
+        <label for="message">Mensaje:</label>
+        <textarea id="message" name="message" placeholder="Escribe tu mensaje aquí" required></textarea>
+
+        <button type="submit" id="saveButton">Enviar</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
