@@ -35,7 +35,7 @@ def get_pwd():
 	else:
 		pass
 	return path
-	
+
 def rm_FirefoxLog():
 	if os.name == "nt":
 		os.system("del geckodriver.log")
@@ -125,5 +125,8 @@ def execute_browser(nav, url):
 
 if __name__ == "__main__":
 	clear()
-	os.system("start start_server.bat")
+	if os.name == "nt":
+		os.system("start start_server.bat")
+	else:
+		os.system("start start_server.sh")
 	main()
