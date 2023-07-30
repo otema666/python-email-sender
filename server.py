@@ -1,19 +1,15 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-# Leer el contenido de index.html y guardarlo en la variable INDEX_PAGE
 with open('index.html', 'r', encoding='utf-8') as f:
     INDEX_PAGE = f.read()
 
-# Leer el contenido de styles.css y guardarlo en la variable STYLES
 with open('styles.css', 'r', encoding='utf-8') as f:
     STYLES = f.read()
 
-# Leer el contenido de background.jpg y guardarlo en la variable BACKGROUND_IMAGE
 with open('background.jpg', 'rb') as f:
     BACKGROUND_IMAGE = f.read()
 
-# Leer el contenido de script.js y guardarlo en la variable SCRIPT
 with open('script.js', 'r', encoding='utf-8') as f:
     SCRIPT = f.read()
 
@@ -23,25 +19,24 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/html; charset=utf-8')
             self.end_headers()
-            # Servir el contenido de index.html
+            # Muestro el index.html
             self.wfile.write(INDEX_PAGE.encode('utf-8'))
         elif self.path == '/styles.css':
             self.send_response(200)
             self.send_header('Content-type', 'text/css; charset=utf-8')
             self.end_headers()
-            # Servir el contenido de styles.css
+            # Cargo los styles.css
             self.wfile.write(STYLES.encode('utf-8'))
         elif self.path == '/background.jpg':
             self.send_response(200)
             self.send_header('Content-type', 'image/jpeg')
             self.end_headers()
-            # Servir el contenido de background.jpg
             self.wfile.write(BACKGROUND_IMAGE)
         elif self.path == '/script.js':
             self.send_response(200)
             self.send_header('Content-type', 'text/javascript; charset=utf-8')
             self.end_headers()
-            # Servir el contenido de script.js
+            # Cargo el script.js
             self.wfile.write(SCRIPT.encode('utf-8'))
         else:
             self.send_error(404, 'File not found')
