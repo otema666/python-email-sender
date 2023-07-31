@@ -7,7 +7,7 @@
     <title>Redactar Correo Electrónico</title>
 </head>
 <body>
-    <div class="email-window">
+    <div class="email-window" id="window">
         <label for="recipient">Para:</label>
         <input type="text" id="recipient" name="recipient" placeholder="Dirección de correo del destinatario" required>
 
@@ -17,8 +17,9 @@
         <label for="message">Mensaje:</label>
         <textarea id="message" name="message" placeholder="Escribe tu mensaje aquí" required></textarea>
 
-        <button type="submit" id="saveButton">Enviar</button>
+        <button type="submit" id="saveButton" onclick="show_msg()">Enviar</button>
     </div>
+    <div class="email-window-sent" id="messageDiv"></div>
     <script src="script.js"></script>
 </body>
 </html>

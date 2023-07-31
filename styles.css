@@ -48,3 +48,25 @@ body {
 .email-window button:hover {
     background-color: #0056b3;
 }
+
+.email-window-sent {
+    background-color: #2ecc71;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 4px;
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.email-window-sent.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.disabled-cursor {
+    cursor: not-allowed;
+  }

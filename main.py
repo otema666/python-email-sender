@@ -1,7 +1,15 @@
 import os
 import time
+import smtplib
+import base64
 from selenium import webdriver
 from colorama import Fore, init
+
+#email
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import formataddr
+
 
 # Inicio colorama con autoreset
 init(autoreset=True)
@@ -13,17 +21,26 @@ B = Fore.BLUE
 def main():
 	if "geckodriver.log" in os.listdir():
 		rm_FirefoxLog()
-	print("Qué navegador desea usar?")
-	print()
-	print(f"{G}1. Google Chrome")
-	print(f"{G}2. Brave Browser")
-	print(f"{G}3. Firefox\n")
-	nav = int(input(f"Respuesta: {B}"))
-	# execute_browser(nav, get_pwd())
-	execute_browser_a_la_nazi(nav, "http://localhost:8000/")
-	abrir_data()
-	correo, asunto, mensaje = process_data()
+	if "qr.png" in os.listdir():
+		rm_qr_img()
 
+	# execute_browser(nav, get_pwd())
+	qr = str(input("Deseas generar un código qr de la red actual? (y/n): ")).lower()
+	if qr == "y" or qr == "s":
+		if os.name == "nt":
+			os.system("python create_qr.py")
+		else:
+			os.system("python3 create_qr.py")
+	else:
+		pass
+	
+	nav = openNav()
+	execute_browser_a_la_nazi(nav, "http://localhost:8000/")
+	while True:
+		abrir_data()
+		correo, asunto, mensaje = process_data()
+		send_email(correo, asunto, mensaje)
+		
 
 def clear():
 	os.system("cls") if os.name == "nt" else os.system("clear")
@@ -42,15 +59,30 @@ def rm_FirefoxLog():
 	else:
 		os.system("rm geckodriver.log")	
 
+def rm_qr_img():
+	if os.name == "nt":
+		os.system("del qr.png")
+	else:
+		os.system("rm qr.png")
+
+def openNav():
+	print("Qué navegador desea usar?")
+	print()
+	print(f"{G}1. Google Chrome")
+	print(f"{G}2. Brave Browser")
+	print(f"{G}3. Firefox\n")
+	print(f"{G}4. Omitir\n")
+	nav = int(input(f"Respuesta: {B}"))
+	return nav
+
 def abrir_data():
 	file_path = "data"
+	print(f"{B}El path esta en escucha a la espera de los datos...\n")
 	while not os.path.exists(file_path):
-		print(f"{B}El path esta en escucha a la espera de los datos...\n")
 		time.sleep(0.5)
-		clear()
-	clear()
 	
 def process_data():
+	file_path = "data"
 	with open(file_path, 'r') as data:
 		v = False
 		for linea in data:
@@ -71,7 +103,7 @@ def process_data():
 			
 		# print(f"El correo es {correo}, el asunto es {asunto} y el mensaje es:\n{mensaje}")
 	os.remove(file_path)
-	print(f"{R}'data' ha sido eliminado.")
+	# print(f"{R}'data' ha sido eliminado.")
 	return correo, asunto, mensaje
 
 def execute_browser_a_la_nazi(nav, url):
@@ -90,6 +122,8 @@ def execute_browser_a_la_nazi(nav, url):
 			os.system(f"start firefox --private {url}")
 		else:
 			os.system(f"firefox --private {url}")
+	else: 
+		pass
 	
 
 def execute_browser(nav, url):
@@ -122,6 +156,31 @@ def execute_browser(nav, url):
     # driver.execute_script(tokenGetter)
 
 
+def send_email(direccion, asunto, mensaje):
+	e_username = "Vm0xd1IyRnRVWGxWV0dSUFZsZG9WMWxyWkc5V2JHeDBaVVYwV0ZKdGVEQlVWbHBQWVd4S2MxWnFUbGhoTVVwRVZrZHplRll4VG5OYVJtUlhUVEpvYjFaclVrZFpWbHBYVTI1V2FGSnRhRmxWTUZaTFZGWmFjbHBFVWxwV2JIQjZWa2Q0VjFaSFNrbFJiVGxhVmtVMVJGUlhlR3RqYkd0NllVWlNUbFl4U2tsV1ZFa3hWakZXZEZOc2FHeFNhelZvVm1wT2IyRkdjRmhsUjNScVlrZFNlVll5ZUVOV01rVjNZMFpTVjFaV2NGTmFSRVpEVld4Q1ZVMUVNRDA9"
+	e_password = "Vm0wd2QyUXlVWGxWV0d4WFlUSm9WMVl3Wkc5V2JHeDBaVVYwV0ZKdGVGWlZNbmhQVmpGYWMySkVUbGhoTVhCUVZteFZlRll5U2tWVWJHUnBWa1phZVZadE1UUlRNazE1Vkd0c2FsSnRhRzlVVmxaM1ZsWmtWMVp0UmxSTmJFcFlWVzAxVDJGV1NYZFhiRkpYWWxob2VsUlVSbUZrUjA1R1drWndWMDFFUlRCV01uUnZWakpHUjFOdVRtcFNiV2hoV1ZSR1lVMHhWWGhYYlVacVlraENSbFpYZUZOVWJVcEdZMFZ3VjJKSFVYZFdha1poVjBaT2NtRkdXbWhsYlhob1YxZDRiMkl4VGtkVmJGWlRZbFZhY1ZscldtRmxWbVJ5VjJzNVZXSkdjREZWVjNodlZqRktjMk5HYUZkaGEzQklWVEJhWVdSV1NuTlRiR1JUVFRBd01RPT0="
+	name = "супер классный"
+
+	msg = MIMEText(mensaje, 'plain', 'utf-8')
+	msg['Subject'] = asunto
+	msg['From'] = formataddr((name, descodear(e_username, 8)))
+	msg['To'] = direccion
+
+	try:
+		server = smtplib.SMTP("smtp.zoho.eu", 587)
+		server.starttls()
+		server.login(descodear(e_username, 8), descodear(e_password, 12))
+		server.sendmail(descodear(e_username, 8), direccion, msg.as_string())
+		server.quit()
+		print(f'{G}Correo enviado correctamente a {direccion}.')
+	except Exception as e:
+		print(f'Error: {e}. No se pudo enviar el email.')
+
+def descodear(texto, veces):
+	for a in range(veces):
+		decoded = base64.b64decode(texto).decode('utf-8')
+		texto = decoded
+	return decoded
 
 if __name__ == "__main__":
 	clear()
