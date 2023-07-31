@@ -34,9 +34,9 @@ def main():
 			os.system("python3 create_qr.py")
 	else:
 		pass
-	
 	nav = openNav()
-	rm_qr_img()
+	if qr == "y" or qr == "s":
+		rm_qr_img()
 	execute_browser_a_la_nazi(nav, "http://localhost:8000/")
 	while True:
 		abrir_data()
