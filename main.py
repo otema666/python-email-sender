@@ -29,12 +29,14 @@ def main():
 	if qr == "y" or qr == "s":
 		if os.name == "nt":
 			os.system("python create_qr.py")
+
 		else:
 			os.system("python3 create_qr.py")
 	else:
 		pass
 	
 	nav = openNav()
+	rm_qr_img()
 	execute_browser_a_la_nazi(nav, "http://localhost:8000/")
 	while True:
 		abrir_data()
