@@ -22,5 +22,12 @@ else
     pip install --disable-pip-version-check colorama > /dev/null 2>&1
 fi
 
+if pip list | grep -i "pyqt6" > /dev/null 2>&1; then
+    echo "pyqt6 OK"
+else
+    echo "Installing pyqt6..."
+    pip install --disable-pip-version-check pyqt6 > /dev/null 2>&1
+fi
+
 echo "All installations complete."
 python main.py

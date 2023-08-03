@@ -7,7 +7,7 @@ if not errorlevel 1 (
     echo selenium OK
 ) else (
     echo Installing selenium...
-    pip install --disable-pip-version-check selenium 2>nul
+    pip install --disable-pip-version-check selenium >nul 2>&1
 )
 
 pip list | find /i "qrcode" >nul 2>&1
@@ -15,7 +15,7 @@ if not errorlevel 1 (
     echo qrcode OK
 ) else (
     echo Installing qrcode...
-    pip install --disable-pip-version-check qrcode 2>nul
+    pip install --disable-pip-version-check qrcode >nul 2>&1
 )
 
 pip list | find /i "colorama" >nul 2>&1
@@ -23,7 +23,15 @@ if not errorlevel 1 (
     echo colorama OK
 ) else (
     echo Installing colorama...
-    pip install --disable-pip-version-check colorama 2>nul
+    pip install --disable-pip-version-check colorama >nul 2>&1
+)
+
+pip list | find /i "pyqt6" >nul 2>&1
+if not errorlevel 1 (
+    echo pyqt6 OK
+) else (
+    echo Installing pyqt6...
+    pip install --disable-pip-version-check pyqt6 >nul 2>&1
 )
 
 echo All installations complete.
