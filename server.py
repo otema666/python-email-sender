@@ -1,43 +1,46 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-with open('index.html', 'r', encoding='utf-8') as f:
+with open('assets/index.html', 'r', encoding='utf-8') as f:
     INDEX_PAGE = f.read()
 
-with open('styles.css', 'r', encoding='utf-8') as f:
+with open('assets/styles.css', 'r', encoding='utf-8') as f:
     STYLES = f.read()
 
-with open('background.jpg', 'rb') as f:
+with open('assets/background.jpg', 'rb') as f:
     BACKGROUND_IMAGE = f.read()
 
-with open('script.js', 'r', encoding='utf-8') as f:
+with open('assets/script.js', 'r', encoding='utf-8') as f:
     SCRIPT = f.read()
 
+
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    saved_emails = []
+
     def do_GET(self):
         if self.path == '/':
             self.send_response(200)
             self.send_header('Content-type', 'text/html; charset=utf-8')
             self.end_headers()
-            # Muestro el index.html
             self.wfile.write(INDEX_PAGE.encode('utf-8'))
         elif self.path == '/styles.css':
             self.send_response(200)
             self.send_header('Content-type', 'text/css; charset=utf-8')
             self.end_headers()
-            # Cargo los styles.css
-            self.wfile.write(STYLES.encode('utf-8'))
+            with open('assets/styles.css', 'r', encoding='utf-8') as f:
+                self.wfile.write(f.read().encode('utf-8'))
         elif self.path == '/background.jpg':
             self.send_response(200)
             self.send_header('Content-type', 'image/jpeg')
             self.end_headers()
-            self.wfile.write(BACKGROUND_IMAGE)
+            with open('assets/background.jpg', 'rb') as f:
+                self.wfile.write(f.read())
         elif self.path == '/script.js':
             self.send_response(200)
             self.send_header('Content-type', 'text/javascript; charset=utf-8')
             self.end_headers()
-            # Cargo el script.js
-            self.wfile.write(SCRIPT.encode('utf-8'))
+            with open('assets/script.js', 'r', encoding='utf-8') as f:
+                self.wfile.write(f.read().encode('utf-8'))
         else:
             self.send_error(404, 'File not found')
 
@@ -51,8 +54,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             subject = data_dict['subject']
             message = data_dict['message']
 
-            with open('data', 'a') as f:
-                f.write(f"C$o$r$r$e$o:{recipient}\nA$s$u$n$t$o:{subject}\nM$e$n$s$a$j$e:{message}")
+            # Store the email data in memory
+            email_data = {
+                'recipient': recipient,
+                'subject': subject,
+                'message': message
+            }
+            self.saved_emails.append(email_data)
 
             self.send_response(200)
             self.send_header('Access-Control-Allow-Origin', '*')

@@ -1,4 +1,5 @@
 import sys
+import os
 import base64
 import smtplib
 from email.mime.text import MIMEText
@@ -9,6 +10,11 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QFont, QMovie, QPixmap
 from PyQt6.QtCore import Qt, QThread, pyqtSignal, QCoreApplication, QRect
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 class EmailSender(QThread):
     email_sent = pyqtSignal(bool, str)
@@ -138,7 +144,7 @@ class EmailWindow(QWidget):
         self.loading_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.loading_label = QLabel(self.loading_widget)
-        self.movie = QMovie("load.gif")  # Coloca la ruta de tu animación de carga aquí
+        self.movie = QMovie(resource_path("assets/load.gif"))
         self.loading_label.setMovie(self.movie)
         self.loading_label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.loading_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
