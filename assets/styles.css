@@ -1,11 +1,19 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-image: url("/background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center; /* Adjusts the position to center the image */
     color: #fff;
     margin: 0;
     padding: 10px;
+    height: 100%;
 }
 
 .email-window {
