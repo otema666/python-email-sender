@@ -3,7 +3,6 @@ import qrcode
 import os
 # Verificar si estamos conectados a una red WiFi o por cable
 result = subprocess.run("netsh interface show interface", capture_output=True, text=True)
-print(result.stdout)
 if "Wi-Fi" not in result.stdout:
     print("No estás conectado a una red Wi-Fi")
     exit(1)

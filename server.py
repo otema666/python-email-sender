@@ -1,4 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from utils.coder import send_email
 import json
 
 with open('assets/index.html', 'r', encoding='utf-8') as f:
@@ -61,7 +62,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 'message': message
             }
             self.saved_emails.append(email_data)
-
+            
+            send_email(recipient, subject, message)
             self.send_response(200)
             self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header('Content-type', 'application/json')
@@ -75,7 +77,6 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print(f'Puerto {port} en escucha (minimice esta ventana)...')
     httpd.serve_forever()
 
 if __name__ == '__main__':

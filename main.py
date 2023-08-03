@@ -3,10 +3,12 @@ import time
 import smtplib
 import subprocess	
 import base64
+import asyncio
 from selenium import webdriver
 from colorama import Fore, init
 
 #email
+from utils.coder import send_email
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formataddr
@@ -19,7 +21,7 @@ G = Fore.GREEN
 R = Fore.RED
 B = Fore.BLUE
 
-def main():
+async def run():
 	if "geckodriver.log" in os.listdir():
 		rm_FirefoxLog()
 	if "qr.png" in os.listdir():
@@ -39,24 +41,19 @@ def main():
 	if qr == "y" or qr == "s":
 		rm_qr_img()
 	execute_browser_a_la_nazi(nav, "http://localhost:8000/")
-	while True:
-		abrir_data()
-		correo, asunto, mensaje = process_data()
-		send_email(correo, asunto, mensaje)
 		
 
 def clear():
 	os.system("cls") if os.name == "nt" else os.system("clear")
  
-def start_server():
+async def start_server():
     if os.name == "nt":
         # En Windows, usa subprocess para ocultar la ventana de la consola.
         startupinfo = subprocess.STARTUPINFO()
         startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
         subprocess.Popen(["python", "server.py"], startupinfo=startupinfo)
     else:
-        # En Linux, ejecuta el script en segundo plano usando "&".
-        subprocess.Popen(["bash", "start_server.sh"])
+        subprocess.Popen(["python3", "server.py"])
 
 def get_pwd():
 	if os.name == "nt":
@@ -87,37 +84,6 @@ def openNav():
 	print(f"{G}4. Omitir\n")
 	nav = int(input(f"Respuesta: {B}"))
 	return nav
-
-def abrir_data():
-	file_path = "data"
-	print(f"{B}El path esta en escucha a la espera de los datos...\n")
-	while not os.path.exists(file_path):
-		time.sleep(0.5)
-	
-def process_data():
-	file_path = "data"
-	with open(file_path, 'r') as data:
-		v = False
-		for linea in data:
-			if "C$o$r$r$e$o:" in linea:
-				correo_array = linea.split(":")
-				correo = correo_array[1]
-				correo = correo.strip()
-			if "A$s$u$n$t$o:" in linea:
-				asunto_array = linea.split(":")
-				asunto = asunto_array[1]
-				asunto = asunto.strip()	
-			if v:	
-				mensaje += linea
-			if "M$e$n$s$a$j$e:" in linea:
-				mensaje_array = linea.split(":")
-				mensaje = mensaje_array[1]
-				v = True
-			
-		# print(f"El correo es {correo}, el asunto es {asunto} y el mensaje es:\n{mensaje}")
-	os.remove(file_path)
-	# print(f"{R}'data' ha sido eliminado.")
-	return correo, asunto, mensaje
 
 def execute_browser_a_la_nazi(nav, url):
 	if nav == 1:
@@ -195,7 +161,14 @@ def descodear(texto, veces):
 		texto = decoded
 	return decoded
 
-if __name__ == "__main__":
-	clear()
-	main()
-	start_server()
+async def main():
+    # Creating tasks for both functions
+    task1 = asyncio.create_task(start_server())
+    task2 = asyncio.create_task(run())
+
+    # Wait for both tasks to complete
+    await asyncio.gather(task2, task1)
+
+# Run the main function asynchronously
+clear()
+asyncio.run(main())
