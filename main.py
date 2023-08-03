@@ -1,6 +1,7 @@
 import os
 import time
 import smtplib
+import subprocess	
 import base64
 from selenium import webdriver
 from colorama import Fore, init
@@ -28,10 +29,10 @@ def main():
 	qr = str(input("Deseas generar un código qr de la red actual? (y/n): ")).lower()
 	if qr == "y" or qr == "s":
 		if os.name == "nt":
-			os.system("python create_qr.py")
+			os.system("python utils/create_qr.py")
 
 		else:
-			os.system("python3 create_qr.py")
+			os.system("python3 utils/create_qr.py")
 	else:
 		pass
 	nav = openNav()
@@ -46,11 +47,21 @@ def main():
 
 def clear():
 	os.system("cls") if os.name == "nt" else os.system("clear")
+ 
+def start_server():
+    if os.name == "nt":
+        # En Windows, usa subprocess para ocultar la ventana de la consola.
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        subprocess.Popen(["python", "server.py"], startupinfo=startupinfo)
+    else:
+        # En Linux, ejecuta el script en segundo plano usando "&".
+        subprocess.Popen(["bash", "start_server.sh"])
 
 def get_pwd():
 	if os.name == "nt":
 		path = str(os.getcwd())
-		path += "\index.html"
+		path += "\\assets\index.html"
 	else:
 		pass
 	return path
@@ -186,8 +197,5 @@ def descodear(texto, veces):
 
 if __name__ == "__main__":
 	clear()
-	if os.name == "nt":
-		os.system("start start_server.bat")
-	else:
-		os.system("start start_server.sh")
 	main()
+	start_server()

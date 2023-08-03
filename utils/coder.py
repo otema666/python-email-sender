@@ -20,5 +20,6 @@ def main():
 		print(codear(var, num))
 	elif cod == 2:
 		print(descodear(var, num))
+
 if __name__ == '__main__':
 	main()
