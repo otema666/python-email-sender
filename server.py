@@ -1,8 +1,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from utils.coder import send_email, clear
+from colorama import Fore, init
 import json
 import os
 
+init(autoreset=True)
 with open('assets/index.html', 'r', encoding='utf-8') as f:
     INDEX_PAGE = f.read()
 
@@ -47,7 +49,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_error(404, 'File not found')
         
         clear()
-        print("Server en escucha...")
+        print(f"{Fore.MAGENTA}Server en escucha...")
 
     def do_POST(self):
         if self.path == '/save_email':
@@ -78,7 +80,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404, 'File not found')
         clear()
-        print("Server en escucha...")
+        print(f"{Fore.MAGENTA}Server en escucha...")
 
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
     server_address = ('', port)

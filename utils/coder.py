@@ -28,7 +28,10 @@ def send_email(direccion, asunto, mensaje):
         print(f'{Fore.GREEN}Correo enviado correctamente a {direccion}.')
         time.sleep(30)
     except Exception as e:
+        clear()
         print(f'{Fore.RED}Error: {e}. No se pudo enviar el email.')
+        print("Intentelo de nuevo")
+        time.sleep(5)
 
 def codear(texto, veces):
 	for a in range(veces):
