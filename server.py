@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from utils.coder import send_email
+from utils.coder import send_email, clear
 import json
+import os
 
 with open('assets/index.html', 'r', encoding='utf-8') as f:
     INDEX_PAGE = f.read()
@@ -44,6 +45,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(f.read().encode('utf-8'))
         else:
             self.send_error(404, 'File not found')
+        
+        clear()
+        print("Server en escucha...")
 
     def do_POST(self):
         if self.path == '/save_email':
@@ -70,9 +74,11 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             response = {'status': 'success'}
             self.wfile.write(json.dumps(response).encode('utf-8'))
+
         else:
             self.send_error(404, 'File not found')
-
+        clear()
+        print("Server en escucha...")
 
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
     server_address = ('', port)

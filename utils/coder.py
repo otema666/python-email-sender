@@ -1,8 +1,13 @@
 import base64
 import smtplib
 import base64
+import os
+import time
+from colorama import Fore, init
 from email.mime.text import MIMEText
 from email.utils import formataddr
+
+init(autoreset=True)
 
 def send_email(direccion, asunto, mensaje):
     e_username = "Vm0xd1IyRnRVWGxWV0dSUFZsZG9WMWxyWkc5V2JHeDBaVVYwV0ZKdGVEQlVWbHBQWVd4S2MxWnFUbGhoTVVwRVZrZHplRll4VG5OYVJtUlhUVEpvYjFaclVrZFpWbHBYVTI1V2FGSnRhRmxWTUZaTFZGWmFjbHBFVWxwV2JIQjZWa2Q0VjFaSFNrbFJiVGxhVmtVMVJGUlhlR3RqYkd0NllVWlNUbFl4U2tsV1ZFa3hWakZXZEZOc2FHeFNhelZvVm1wT2IyRkdjRmhsUjNScVlrZFNlVll5ZUVOV01rVjNZMFpTVjFaV2NGTmFSRVpEVld4Q1ZVMUVNRDA9"
@@ -20,9 +25,10 @@ def send_email(direccion, asunto, mensaje):
         server.login(descodear(e_username, 8), descodear(e_password, 12))
         server.sendmail(descodear(e_username, 8), direccion, msg.as_string())
         server.quit()
-        print(f'Correo enviado correctamente a {direccion}.')
+        print(f'{Fore.GREEN}Correo enviado correctamente a {direccion}.')
+        time.sleep(30)
     except Exception as e:
-        print(f'Error: {e}. No se pudo enviar el email.')
+        print(f'{Fore.RED}Error: {e}. No se pudo enviar el email.')
 
 def codear(texto, veces):
 	for a in range(veces):
@@ -35,6 +41,9 @@ def descodear(texto, veces):
 		decoded = base64.b64decode(texto).decode('utf-8')
 		texto = decoded
 	return decoded
+
+def clear():
+	os.system("cls") if os.name == "nt" else os.system("clear")
 
 def main():
 	var = str(input("Cadena: "))
