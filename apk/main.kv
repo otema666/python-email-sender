@@ -1,0 +1,101 @@
+#:kivy 2.0.0
+
+<EmailWindow>:
+
+
+    FloatLayout:
+
+
+
+        MDLabel:
+            text: "EMAIL SENDER[size=30] v0.3[/size]"
+            markup: True
+            pos_hint: {"center_x": 0.5, "top": 0.9}
+            size_hint: None, None
+            size: dp(250), dp(40)
+            bold: True
+            halign: "center"
+            valign: "middle"
+            font_style: "H3"
+            font_size: '24sp'
+
+        MDFloatingActionButton:
+            icon: "theme-light-dark"
+            id: theme_button
+            on_release: app.switch_theme_style()
+            halign: "center"
+            valign: "center"
+            type: "standard"
+            x: self.parent.width - self.width - dp(18)
+            y: dp(18)
+            size_hint: None, None
+            size: "56dp", "56dp"
+
+        MDTextField:
+            id: recipient_input
+            hint_text: "Dirección de correo del destinatario"
+            helper_text_mode: "on_error"
+            on_focus: root.email_error()
+            size_hint: None, None
+            size: dp(280), dp(40)
+            input_type: "text"
+            pos_hint: {"center_x": 0.5, "top": 0.8}
+            helper_text: "Email inválido"
+            multiline: False
+            line_color_normal: [0.5,0.5,0.5,1]
+            hint_text_color_normal: [0.5,0.5,0.5,1]
+
+        MDTextField:
+            id: subject_input
+            hint_text: "Asunto del correo"
+            size_hint: None, None
+            size: dp(280), dp(40)
+            input_type: "text"
+            pos_hint: {"center_x": 0.5, "top": 0.7}
+            multiline: False
+            line_color_normal: [0.5,0.5,0.5,1]
+            hint_text_color_normal: [0.5,0.5,0.5,1]
+    
+        MDTextField:
+            id: message_input
+            hint_text: "Escribe tu mensaje aquí"
+            size_hint: None, None
+            size: dp(280), dp(120)
+            input_type: "text"
+            pos_hint: {"center_x": 0.5, "top": 0.6}
+            multiline: True
+            line_color_normal: [0.5,0.5,0.5,1]
+            hint_text_color_normal: [0.5,0.5,0.5,1]
+
+        MDRectangleFlatButton:
+            id: send_button
+            text: "Enviar"
+            size_hint: None, None
+            size: dp(200), dp(40)
+            pos_hint: {"center_x": 0.5, "top": 0.45}
+            color: (1, 1, 1, 1)
+            font_name: "Roboto"
+            border_radius: [15, ]
+            on_release: root.send_email()
+        
+        MDLabel:
+            id: message_div
+            text: ""
+            pos_hint: {"center_x": 0.5, "top": 0.2}
+            halign: 'center'
+            valign: 'top'
+            size_hint: None, None
+            size: dp(280), self.texture_size[1]
+            text_size: self.width, None
+            padding_y: 10  # Ajusta el espaciado en la parte superior e inferior del Label
+            font_size: '15sp'
+
+        Label:
+            text: root.countdown
+            pos_hint: {"center_x": 0.5, "top": 0.45}
+            color: 1, 0, 0, 1  # Red color for the countdown label
+            font_size: "30sp"
+            bold: True
+            size_hint_y: None
+            height: self.texture_size[1]
+            opacity: 1 if root.email_sent else 0
