@@ -1,12 +1,12 @@
 import os
-
+import json
 import subprocess	
 import base64
 import asyncio
 from colorama import Fore, init
 
 #email
-from utils.coder import send_email, clear
+from utils.coder import clear
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formataddr
