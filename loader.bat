@@ -10,6 +10,14 @@ if not errorlevel 1 (
     pip install --disable-pip-version-check qrcode >nul 2>&1
 )
 
+pip list | find /i "names" >nul 2>&1
+if not errorlevel 1 (
+    echo names OK
+) else (
+    echo Installing names...
+    pip install --disable-pip-version-check names >nul 2>&1
+)
+
 pip list | find /i "colorama" >nul 2>&1
 if not errorlevel 1 (
     echo colorama OK
