@@ -1,5 +1,10 @@
 #:kivy 2.0.0
 
+<LanguageItem@MDDropdownItem>:
+    # Define the appearance and behavior of the language items
+    theme_text_color: "Custom"
+    text_color: 1, 0, 0, 1  # Default text color (Red)
+
 <EmailWindow>:
 
 
@@ -8,7 +13,8 @@
 
 
         MDLabel:
-            text: "EMAIL SENDER[size=30] v0.3[/size]"
+            text: "EMAIL SENDER[size=30] v0.5[/size]"
+            id: title_label
             markup: True
             pos_hint: {"center_x": 0.5, "top": 0.9}
             size_hint: None, None
@@ -19,10 +25,31 @@
             font_style: "H3"
             font_size: '24sp'
 
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.text_color
+        
+        MDSpinner:
+            id: spinner
+            size_hint: None, None
+            size: dp(25), dp(25)
+            pos_hint: {"center_x": 0.5, "top": 0.3}
+            line_width: dp(3)
+            color: (1.0, 0.5961, 0.0, 1.0)
+
+        MDIconButton:
+            icon: "web"
+            id: lang_button
+            icon_color: app.primary_text_color_rgba
+            theme_icon_color: "Custom"
+            x: self.parent.width - self.width - dp(18)
+            y: self.parent.height - self.height - dp(18)
+            on_release: app.open_language_dropdown()
+
         MDFloatingActionButton:
             icon: "theme-light-dark"
             id: theme_button
-            on_release: app.switch_theme_style()
+            on_release: app.toggle_theme()
+            md_bg_color: (1.0, 0.5961, 0.0, 1.0)
             halign: "center"
             valign: "center"
             type: "standard"
@@ -30,10 +57,13 @@
             y: dp(18)
             size_hint: None, None
             size: "56dp", "56dp"
+            
+            theme_text_color: "Custom"
+            text_color: (0, 0, 0, 1)
 
         MDTextField:
             id: recipient_input
-            hint_text: "Dirección de correo del destinatario"
+            hint_text: "Recipient's email address"
             helper_text_mode: "on_error"
             on_focus: root.email_error()
             size_hint: None, None
@@ -44,10 +74,15 @@
             multiline: False
             line_color_normal: [0.5,0.5,0.5,1]
             hint_text_color_normal: [0.5,0.5,0.5,1]
+            text_color_normal: [0.5,0.5,0.5,1]
+            
+            line_color_mode: "Custom"
+
+
 
         MDTextField:
             id: subject_input
-            hint_text: "Asunto del correo"
+            hint_text: "Email subject"
             size_hint: None, None
             size: dp(280), dp(40)
             input_type: "text"
@@ -55,10 +90,16 @@
             multiline: False
             line_color_normal: [0.5,0.5,0.5,1]
             hint_text_color_normal: [0.5,0.5,0.5,1]
+            text_color_normal: [0.5,0.5,0.5,1]
+            
+            theme_text_color: "Custom"
+            line_color_mode: "Custom"
+            text_color: app.primary_text_color_rgba
+
     
         MDTextField:
             id: message_input
-            hint_text: "Escribe tu mensaje aquí"
+            hint_text: "Type your message here"
             size_hint: None, None
             size: dp(280), dp(120)
             input_type: "text"
@@ -66,29 +107,41 @@
             multiline: True
             line_color_normal: [0.5,0.5,0.5,1]
             hint_text_color_normal: [0.5,0.5,0.5,1]
+            text_color_normal: [0.5,0.5,0.5,1]
+            
+            theme_text_color: "Custom"
+            line_color_mode: "Custom"
+            text_color: app.primary_text_color_rgba
+
 
         MDRectangleFlatButton:
             id: send_button
-            text: "Enviar"
+            text: "Send"
             size_hint: None, None
             size: dp(200), dp(40)
             pos_hint: {"center_x": 0.5, "top": 0.45}
             color: (1, 1, 1, 1)
             font_name: "Roboto"
-            border_radius: [15, ]
+            border_radius: [15, 15, 15, 15]
             on_release: root.send_email()
+            
+            theme_text_color: "Custom"
+            text_color: (1.0, 0.5961, 0.0, 1.0)
+            line_color: (1.0, 0.5961, 0.0, 1.0)
         
         MDLabel:
             id: message_div
             text: ""
             pos_hint: {"center_x": 0.5, "top": 0.2}
             halign: 'center'
+            theme_text_color: "Custom"
             valign: 'top'
             size_hint: None, None
             size: dp(280), self.texture_size[1]
             text_size: self.width, None
             padding_y: 10  # Ajusta el espaciado en la parte superior e inferior del Label
             font_size: '15sp'
+            text_color: app.theme_cls.text_color
 
         Label:
             text: root.countdown
