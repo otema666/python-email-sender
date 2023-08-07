@@ -35,4 +35,23 @@ if not errorlevel 1 (
 )
 
 echo All installations complete.
-python main.py
+cls
+
+:Menu
+echo Choose an option:
+echo 1. Run main.py
+echo 2. Run gui.py
+echo 3. Exit
+
+set /p choice=Enter option number: 
+
+if "%choice%"=="1" (
+    python main.py
+) else if "%choice%"=="2" (
+    python gui.py
+) else if "%choice%"=="3" (
+    exit /b 0
+) else (
+    echo Invalid option. Please try again.
+    goto Menu
+)
