@@ -1,12 +1,33 @@
-<h2>Email sender through python</h2>
+<h2 align="center">Email sender through python by otema and kkai 📨</h2>
 
-### Para iniciar ejecute "LOADER.bat" o "mailer.exe".
+#### Para iniciar ejecute "loader.bat".
 
 ### Features
-
-* index.html hosteado en un http.server de python
+* Disponible en:
+  * CLi de Windows & Linux
+  * GUi de Windows & Linux
+  * APK para Android & iOS
+* CLI: html file hosteado en un http.server de python
 * Navegadores disponibles: Chrome, Brave y Firefox
 * También genera un código qr de la red WiFi
 
-<p align="center"><img src="https://i.ibb.co/z7TFjSm/Captura-de-pantalla-2023-07-31-163948.png" heigh="9790px" width="5120px"></p>
+### Screenshots
+
+#
+
+<h3 align="left">CLI:</h3>
+<p align="center"><img src="/assets/readme/localhost.png" width="20%"></p>
+
+<p align="center"><img src="/assets/readme/cli.png" width="20%"></p>
+
+
+#
+
+<h3 align="left">GUI:</h3>
+<p align="center"><img src="/assets/readme/gui.png" width="20%"></p>
+
+#
+
+<h3 align="left">APK:</h3>
+<p align="center"><img src="/assets/readme/apk.jpg" width="20%"></p>
 
