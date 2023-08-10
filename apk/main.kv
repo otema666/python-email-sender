@@ -7,13 +7,10 @@
 
 <EmailWindow>:
 
-
     FloatLayout:
 
-
-
         MDLabel:
-            text: "EMAIL SENDER[size=30] v0.5[/size]"
+            text: "EMAIL SENDER[size=30] v0.6[/size]"
             id: title_label
             markup: True
             pos_hint: {"center_x": 0.5, "top": 0.9}
@@ -104,7 +101,6 @@
             size: dp(280), dp(120)
             input_type: "text"
             pos_hint: {"center_x": 0.5, "top": 0.6}
-            multiline: True
             line_color_normal: [0.5,0.5,0.5,1]
             hint_text_color_normal: [0.5,0.5,0.5,1]
             text_color_normal: [0.5,0.5,0.5,1]
@@ -113,13 +109,19 @@
             line_color_mode: "Custom"
             text_color: app.primary_text_color_rgba
 
+        MDRoundFlatIconButton:
+            id: file_button
+            text: "Add files"
+            on_release: app.file_manager_open()
+            pos_hint: {"center_x": 0.5, "top": 0.50}
+            icon: "file-plus"
 
         MDRectangleFlatButton:
             id: send_button
             text: "Send"
             size_hint: None, None
             size: dp(200), dp(40)
-            pos_hint: {"center_x": 0.5, "top": 0.45}
+            pos_hint: {"center_x": 0.5, "top": 0.40}
             color: (1, 1, 1, 1)
             font_name: "Roboto"
             border_radius: [15, 15, 15, 15]
@@ -142,10 +144,11 @@
             padding_y: 10  # Ajusta el espaciado en la parte superior e inferior del Label
             font_size: '15sp'
             text_color: app.theme_cls.text_color
+            icon_color: (1.0, 0.5961, 0.0, 1.0)
 
         Label:
             text: root.countdown
-            pos_hint: {"center_x": 0.5, "top": 0.45}
+            pos_hint: {"center_x": 0.5, "top": 0.4}
             color: 1, 0, 0, 1  # Red color for the countdown label
             font_size: "30sp"
             bold: True
