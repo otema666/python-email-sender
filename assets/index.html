@@ -4,20 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/styles.css">
-    <title>Redactar Correo Electrónico</title>
+    <title>Python email sender</title>
 </head>
 <body>
     <div class="email-window" id="window">
-        <label for="recipient">Para:</label>
-        <input type="text" id="recipient" name="recipient" placeholder="Dirección de correo del destinatario" required>
+        <h2 style="text-align: center;">EMAIL SENDER</h2>
+        <label for="recipient">To:</label>
+        <input type="text" id="recipient" name="recipient" placeholder="Recipient's email address" required>
 
-        <label for="subject">Asunto:</label>
-        <input type="text" id="subject" name="subject" placeholder="Asunto del correo" required>
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" placeholder="Email subject" required>
 
-        <label for="message">Mensaje:</label>
-        <textarea id="message" name="message" placeholder="Escribe tu mensaje aquí" required></textarea>
+        <label for="message">Body:</label>
+        <textarea id="message" name="message" placeholder="Type your message here" required></textarea>
 
-        <button type="submit" id="saveButton" onclick="show_msg()">Enviar</button>
+        <button id="importFile">Importar archivos</button>
+
+        
+        <button type="submit" id="saveButton" onclick="show_msg()">Send</button>
     </div>
     <div class="email-window-sent" id="messageDiv"></div>
     <script src="/script.js"></script>

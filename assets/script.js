@@ -1,5 +1,4 @@
 document.getElementById("saveButton").addEventListener("click", function() {
-    
     const recipient = document.getElementById("recipient").value;
     const subject = document.getElementById("subject").value;
     const message = document.getElementById("message").value;
@@ -25,6 +24,32 @@ document.getElementById("saveButton").addEventListener("click", function() {
     };
     xhr.send(JSON.stringify(data));
 });
+
+document.getElementById("importFile").addEventListener("click", function() {
+    // Realizar una solicitud GET al servidor Python
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost:8000/execute_function', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                console.log(response); // Manejar la respuesta del servidor aquí
+                var filesSeleccionados = response.files_seleccionados;
+
+            // Convierte los nombres de archivo en una cadena legible
+            var nombresArchivos = filesSeleccionados.join('\n- ');
+        
+            // Muestra los nombres de archivo en un alert()
+            alert('Has seleccionado:' + "\n" + nombresArchivos);
+            
+            } else {
+                console.error('Error al enviar la solicitud:', xhr.status, xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+});
+
 
 function show_msg() {
   // Deshabilitar el botón al hacer clic

@@ -78,3 +78,44 @@ body {
 .disabled-cursor {
     cursor: not-allowed;
   }
+
+
+  #loader-container {
+  width: 23%;
+  height: 20px;
+  background-color: #ddd;
+  margin-top: 10px;
+  position: relative;
+  border-radius: 35px;
+}
+
+
+#loader {
+  border-radius: 35px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  animation: loading 1.8s ease-in-out forwards, change-color 1.8s ease-in-out forwards;
+}
+
+@keyframes loading {
+  0% {
+    width: 0%;
+  }
+  30% {
+    width: 25%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes change-color {
+  0% {
+    background-color: red;
+  }
+  100% {
+    background-color: green;
+  }
+}
