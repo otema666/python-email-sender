@@ -103,7 +103,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def select_files(self):
         files_seleccionados = []
         root = tk.Tk()
-        root.withdraw()  # Ocultar la ventana principal
+        root.withdraw()
+        root.attributes("-topmost", True)
         file_paths = filedialog.askopenfilenames()
 
         for file_path in file_paths:
