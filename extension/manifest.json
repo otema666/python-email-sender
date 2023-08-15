@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "Email Sender Extension",
+    "version": "0.1",
+    "description": "Send emails through a Python script\nService: Zoho Mail\nRepository: https://github.com/otema666/python-email-sender",
+    "icons": {
+      "48": "images/icon.png"
+    },
+    "permissions": [
+      "activeTab"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "48": "images/icon.png"
+      }
+    }
+  }

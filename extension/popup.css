@@ -1,0 +1,90 @@
+body {
+    width: 300px;
+    background-color: #fff; /* Fondo claro predeterminado */
+    color: #333; /* Texto oscuro en modo claro */
+    transition: background-color 0.3s, color 0.3s; /* Agregar transición suave */
+  }
+  
+  body.dark-mode {
+    background-color: #111; /* Fondo oscuro en modo oscuro */
+    color: #fff; /* Texto claro en modo oscuro */
+  }
+  
+  input, textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #f3f3f3; /* Color de fondo para campos de entrada en modo claro */
+    color: #333; /* Texto oscuro en modo claro */
+    border: none;
+    padding: 10px;
+  }
+  
+  input.dark-mode, textarea.dark-mode {
+    background-color: #333; /* Color de fondo para campos de entrada en modo oscuro */
+    color: #fff; /* Texto claro en modo oscuro */
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  button.dark-mode {
+    background-color: #222;
+  }
+  
+  /* Agregar más estilos oscuros según sea necesario */
+
+  
+  #loader-container {
+    width: 90%;
+    height: 20px;
+    background-color: #ddd;
+    margin-top: 10px;
+    position: relative;
+    border-radius: 35px;
+  }
+  
+  
+  #loader {
+    border-radius: 35px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    animation: loading 1.8s ease-in-out forwards, change-color 1.8s ease-in-out forwards;
+  }
+  
+  @keyframes loading {
+    0% {
+      width: 0%;
+    }
+    30% {
+      width: 25%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+  @keyframes change-color {
+    0% {
+      background-color: red;
+    }
+    100% {
+      background-color: green;
+    }
+  }
+  
+  
+  
+  .hidden {
+    display: none;
+  }
