@@ -36,6 +36,20 @@ else
     pip install --disable-pip-version-check pyqt6 > /dev/null 2>&1
 fi
 
+if pip list | grep -i "Flask-Cors" > /dev/null 2>&1; then
+    echo "Flask-Cors OK"
+else
+    echo "Installing Flask-Cors..."
+    pip install --disable-pip-version-check Flask-Cors > /dev/null 2>&1
+fi
+
+if pip list | grep -i "Flask" > /dev/null 2>&1; then
+    echo "Flask OK"
+else
+    echo "Installing Flask..."
+    pip install --disable-pip-version-check Flask > /dev/null 2>&1
+fi
+
 echo "All installations complete."
 
 while true; do
@@ -43,7 +57,8 @@ while true; do
     echo "Choose an option:"
     echo "1. Run main.py"
     echo "2. Run gui.py"
-    echo "3. Exit"
+    echo "3. Run extension_server.py"
+    echo "4. Exit"
     
     read -p "Enter option number: " choice
     
@@ -55,6 +70,9 @@ while true; do
             python3 gui.py
             ;;
         3)
+            python3 extension_server.py
+            ;;
+        4)
             exit 0
             ;;
         *)
