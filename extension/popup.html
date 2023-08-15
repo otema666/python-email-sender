@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Email Sender Extension</title>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+  <h1>Email Sender v0.1</h1>
+  <form id="emailForm">
+    <input type="email" id="address" placeholder="Recipient's email address">
+    <input type="text" id="subject" placeholder="Subject">
+    <textarea id="message" placeholder="Type your message here"></textarea>
+    <button type="button" id="sendButton">Send Email</button>
+    <button type="button" id="toggleDarkMode">Toggle Dark Mode</button>
+  </form>
+  
+
+
+    <div id="loader-container" class="hidden">
+        <div id="loader"></div>
+    </div>
+    
+    <div id="resultMessage" ></div>
+
+
+
+  <script src="popup.js"></script>
+</body>
+</html>
