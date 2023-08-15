@@ -29,7 +29,7 @@ def send_email(direccion, asunto, mensaje, archivos_adjuntos=None):
         for archivo_adjunto in archivos_adjuntos:
             with open(archivo_adjunto, 'rb') as f:
                 attached_file = MIMEApplication(f.read())
-                attached_file.add_header('content-disposition', 'attachment', filename=archivo_adjunto)
+                attached_file.add_header('content-disposition', 'attachment', filename=os.rename(archivo_adjunto, os.path.basename(archivo_adjunto)))
                 msg.attach(attached_file)
 
 

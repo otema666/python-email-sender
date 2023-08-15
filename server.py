@@ -84,7 +84,6 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 'message': message
             }
             self.saved_emails.append(email_data)
-            
 
             send_data(recipient, subject, message, self.__class__.files_seleccionados)
             send_email(recipient, subject, message, self.__class__.files_seleccionados)
