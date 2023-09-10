@@ -1,5 +1,6 @@
 @echo off
 title main python script
+cls
 set /p input=Do you want to check installations? (y/n): 
 if "%input%"=="y" (
     echo Checking installed packages...
