@@ -1,57 +1,62 @@
 @echo off
 title main python script
-echo Checking installed packages...
+set /p input=Want to check installations? (y/n): 
+if "%input%"=="y" (
+    echo Checking installed packages...
 
-pip list | find /i "qrcode" >nul 2>&1
-if not errorlevel 1 (
-    echo qrcode OK
+    pip list | find /i "qrcode" >nul 2>&1
+    if not errorlevel 1 (
+        echo qrcode OK
+    ) else (
+        echo Installing qrcode...
+        pip install --disable-pip-version-check qrcode >nul 2>&1
+    )
+
+    pip list | find /i "names" >nul 2>&1
+    if not errorlevel 1 (
+        echo names OK
+    ) else (
+        echo Installing names...
+        pip install --disable-pip-version-check names >nul 2>&1
+    )
+
+    pip list | find /i "colorama" >nul 2>&1
+    if not errorlevel 1 (
+        echo colorama OK
+    ) else (
+        echo Installing colorama...
+        pip install --disable-pip-version-check colorama >nul 2>&1
+    )
+
+    pip list | find /i "pyqt6" >nul 2>&1
+    if not errorlevel 1 (
+        echo pyqt6 OK
+    ) else (
+        echo Installing pyqt6...
+        pip install --disable-pip-version-check pyqt6 >nul 2>&1
+    )
+
+    pip list | find /i "Flask-Cors" >nul 2>&1
+    if not errorlevel 1 (
+        echo Flask-Cors OK
+    ) else (
+        echo Installing Flask-Cors...
+        pip install --disable-pip-version-check Flask-Cors >nul 2>&1
+    )
+
+    pip list | find /i "Flask" >nul 2>&1
+    if not errorlevel 1 (
+        echo Flask OK
+    ) else (
+        echo Installing Flask...
+        pip install --disable-pip-version-check Flask >nul 2>&1
+    )
+
+    echo All installations complete.
+    cls
 ) else (
-    echo Installing qrcode...
-    pip install --disable-pip-version-check qrcode >nul 2>&1
+    cls
 )
-
-pip list | find /i "names" >nul 2>&1
-if not errorlevel 1 (
-    echo names OK
-) else (
-    echo Installing names...
-    pip install --disable-pip-version-check names >nul 2>&1
-)
-
-pip list | find /i "colorama" >nul 2>&1
-if not errorlevel 1 (
-    echo colorama OK
-) else (
-    echo Installing colorama...
-    pip install --disable-pip-version-check colorama >nul 2>&1
-)
-
-pip list | find /i "pyqt6" >nul 2>&1
-if not errorlevel 1 (
-    echo pyqt6 OK
-) else (
-    echo Installing pyqt6...
-    pip install --disable-pip-version-check pyqt6 >nul 2>&1
-)
-
-pip list | find /i "Flask-Cors" >nul 2>&1
-if not errorlevel 1 (
-    echo Flask-Cors OK
-) else (
-    echo Installing Flask-Cors...
-    pip install --disable-pip-version-check Flask-Cors >nul 2>&1
-)
-
-pip list | find /i "Flask" >nul 2>&1
-if not errorlevel 1 (
-    echo Flask OK
-) else (
-    echo Installing Flask...
-    pip install --disable-pip-version-check Flask >nul 2>&1
-)
-
-echo All installations complete.
-cls
 
 :Menu
 echo Choose an option:
